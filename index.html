@@ -3,45 +3,85 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="theme-color" content="#101827">
-    <title>Juego de Gato | Dos jugadores</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#10233f">
+    <title>Juego del Gato</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
     <main class="app">
-        <header><span class="eyebrow">Aaron 100 juegos</span>
-            <h1>🐱 Juego de Gato</h1>
-            <p>Dos jugadores · Un mismo dispositivo</p>
+        <header>
+            <span class="eyebrow">Aaron 100 Juegos</span>
+            <h1>🎮 JUEGO DE Aaron</h1>
+            <p id="subtitle">Diversión para todos en un mismo dispositivo</p>
         </header>
-        <section id="setup" class="card">
-            <h2>¿Quiénes van a jugar?</h2><label for="nameX">Jugador X</label><input id="nameX" maxlength="24"
-                placeholder="Nombre del jugador X" autocomplete="off"><label for="nameO">Jugador O</label><input
-                id="nameO" maxlength="24" placeholder="Nombre del jugador O" autocomplete="off"><label
-                class="checkbox"><input type="checkbox" id="trackScore" checked> Llevar conteo de partidas y
-                victorias</label><button id="start" class="primary">Comenzar partida</button><button id="skip"
-                class="secondary">Omitir nombres</button>
-        </section>
-        <section id="game" class="hidden">
-            <div id="scorePanel" class="score card">
-                <div><small id="labelX">Jugador X</small><strong id="scoreX">0</strong></div>
-                <div><small>Empates</small><strong id="draws">0</strong></div>
-                <div><small id="labelO">Jugador O</small><strong id="scoreO">0</strong></div>
+
+        <section id="modeScreen" class="screen card">
+            <h2>¿Cómo deseas jugar?</h2>
+            <div class="choice-list">
+                <button id="onePlayer" class="choice primary"><span>🤖</span><strong>1 JUGADOR</strong><small>Contra la computadora</small></button>
+                <button id="twoPlayers" class="choice secondary"><span>👥</span><strong>2 JUGADORES</strong><small>Jugar con un amigo</small></button>
             </div>
-            <div class="meta"><span id="status" role="status" aria-live="polite"></span><span id="played">Partidas
-                    jugadas: 0</span></div>
-            <div id="board" class="board" aria-label="Tablero de gato"></div>
-            <div class="actions"><button id="next" class="primary">Nueva partida</button><button id="reset"
-                    class="secondary">Reiniciar juego y cambiar nombres</button></div>
         </section>
-        <footer>Juego de Gato · Versión GitHub Pages</footer>
+
+        <section id="difficultyScreen" class="screen card hidden">
+            <h2>Selecciona la dificultad</h2>
+            <div class="choice-list">
+                <button class="choice difficulty easy" data-difficulty="easy"><span>🟢</span><strong>FÁCIL</strong><small>Movimientos aleatorios</small></button>
+                <button class="choice difficulty medium" data-difficulty="medium"><span>🟡</span><strong>INTERMEDIO</strong><small>Gana y bloquea amenazas</small></button>
+                <button class="choice difficulty hard" data-difficulty="hard"><span>🔴</span><strong>DIFÍCIL</strong><small>Inteligencia Minimax</small></button>
+            </div>
+            <button id="backToMode" class="text-button">← Volver</button>
+        </section>
+
+        <section id="namesScreen" class="screen card hidden">
+            <h2 id="namesTitle">Ingresa los nombres</h2>
+            <p id="configuration" class="configuration"></p>
+            <div id="humanNameGroup">
+                <label for="nameX" id="nameXLabel">Nombre del jugador</label>
+                <input id="nameX" maxlength="24" placeholder="Escribe un nombre" autocomplete="off">
+            </div>
+            <div id="secondNameGroup">
+                <label for="nameO" id="nameOLabel">Jugador 2</label>
+                <input id="nameO" maxlength="24" placeholder="Escribe un nombre" autocomplete="off">
+            </div>
+            <div class="form-actions">
+                <button id="start" class="primary">Comenzar partida</button>
+                <button id="skip" class="secondary">Omitir nombres</button>
+                <button id="backToPrevious" class="text-button">← Volver</button>
+            </div>
+        </section>
+
+        <section id="gameScreen" class="hidden">
+            <div class="game-heading">
+                <div>
+                    <span id="modeLabel" class="eyebrow"></span>
+                    <h2 id="matchup"></h2>
+                    <p id="difficultyLabel" class="configuration"></p>
+                </div>
+            </div>
+            <div id="scorePanel" class="score card">
+                <div><small id="labelX">Jugador 1 (X)</small><strong id="scoreX">0</strong><span>Victorias</span></div>
+                <div><small>Empates</small><strong id="draws">0</strong><span>Partidas</span></div>
+                <div><small id="labelO">Jugador 2 (O)</small><strong id="scoreO">0</strong><span>Victorias</span></div>
+            </div>
+            <div class="meta"><span id="status" role="status" aria-live="polite"></span><span id="played">Partidas jugadas: 0</span></div>
+            <div id="board" class="board" aria-label="Tablero de gato"></div>
+            <div class="actions">
+                <button id="next" class="primary">Nueva partida</button>
+                <button id="resetScore" class="secondary">Reiniciar marcador</button>
+                <button id="changePlayers" class="secondary">Cambiar jugadores</button>
+                <button id="changeMode" class="text-button">Cambiar modalidad</button>
+            </div>
+        </section>
+        <footer>Juego del Gato · Compatible con GitHub Pages</footer>
     </main>
+
     <dialog id="confirm">
-        <h2>¿Reiniciar todo?</h2>
-        <p>Se borrarán los nombres y el marcador de este navegador.</p>
-        <div class="actions"><button id="cancel" class="secondary">Cancelar</button><button id="accept"
-                class="danger">Sí, reiniciar</button></div>
+        <h2 id="confirmTitle">¿Reiniciar marcador?</h2>
+        <p id="confirmText">Se borrarán las estadísticas de esta sesión.</p>
+        <div class="actions dialog-actions"><button id="cancel" class="secondary">Cancelar</button><button id="accept" class="danger">Sí, continuar</button></div>
     </dialog>
     <script src="script.js"></script>
 </body>
